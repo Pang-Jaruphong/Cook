@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `CookingClasses`.`cook_courses` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `begin_time` DATETIME NOT NULL,
-  `finish_time_date` TIME NULL,
+  `finish_time` TIME NULL,
   `price` DECIMAL(5,2) NOT NULL,
   `max_place` INT NOT NULL,
   `last_inscription` DATE NULL,
