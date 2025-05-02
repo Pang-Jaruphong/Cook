@@ -22,8 +22,8 @@ USE `CookingClasses` ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `CookingClasses`.`Participants` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `firstname` VARCHAR(45) NOT NULL,
-  `lastname` VARCHAR(45) NOT NULL,
+  `first_name` VARCHAR(45) NOT NULL,
+  `last_name` VARCHAR(45) NOT NULL,
   `phone` VARCHAR(45) NOT NULL,
   `mail` VARCHAR(45) NULL,
   PRIMARY KEY (`id`),
