@@ -1,0 +1,21 @@
+INSERT INTO `participants_has_cook_courses` (id,participants_id, cook_courses_id) VALUES (NULL,'1', '1');
+INSERT INTO `participants_has_cook_courses` (id,participants_id, cook_courses_id) VALUES (NULL,'2', '1');
+INSERT INTO `participants_has_cook_courses` (id,participants_id, cook_courses_id) VALUES (NULL,'3', '1');
+INSERT INTO `participants_has_cook_courses` (id,participants_id, cook_courses_id) VALUES (NULL,'4', '2');
+INSERT INTO `participants_has_cook_courses` (id,participants_id, cook_courses_id) VALUES (NULL,'5', '2');
+INSERT INTO `participants_has_cook_courses` (id,participants_id, cook_courses_id) VALUES (NULL,'6', '2');
+INSERT INTO `participants_has_cook_courses` (id,participants_id, cook_courses_id) VALUES (NULL,'7', '2');
+INSERT INTO `participants_has_cook_courses` (id,participants_id, cook_courses_id) VALUES (NULL,'8', '3');
+INSERT INTO `participants_has_cook_courses` (id,participants_id, cook_courses_id) VALUES (NULL,'9', '3');
+INSERT INTO `participants_has_cook_courses` (id,participants_id, cook_courses_id) VALUES (NULL,'10', '3');
+INSERT INTO `participants_has_cook_courses` (id,participants_id, cook_courses_id) VALUES (NULL,'11', '3');
+INSERT INTO `participants_has_cook_courses` (id,participants_id, cook_courses_id) VALUES (NULL,'12', '2');
+INSERT INTO `participants_has_cook_courses` (id,participants_id, cook_courses_id) VALUES (NULL,'13', '2');
+INSERT INTO `participants_has_cook_courses` (id,participants_id, cook_courses_id) VALUES (NULL,'14', '4');
+INSERT INTO `participants_has_cook_courses` (id,participants_id, cook_courses_id) VALUES (NULL,'15', '4');
+INSERT INTO `participants_has_cook_courses` (id,participants_id, cook_courses_id) VALUES (NULL,'16', '5');
+INSERT INTO `participants_has_cook_courses` (id,participants_id, cook_courses_id) VALUES (NULL,'17', '5');
+INSERT INTO `participants_has_cook_courses` (id,participants_id, cook_courses_id) VALUES (NULL,'18', '5');
+INSERT INTO `participants_has_cook_courses` (id,participants_id, cook_courses_id) VALUES (NULL,'19', '4');
+INSERT INTO `participants_has_cook_courses` (id,participants_id, cook_courses_id) VALUES (NULL,'20', '1');
+
