@@ -10,10 +10,10 @@ def refresh_courses():
     for widget in frame.winfo_children():
         widget.destroy()  # Supprime tous les widgets pour recréer la liste
 
-    courses = model.read_table("cook_courses")  # Récupère les concerts depuis la BD
+    courses = model.read_table("cook_courses")  # Récupère les cours depuis la BD
 
     if not courses:
-        tk.Label(frame, text="Aucun concert trouvé.", font=("Arial", 12)).pack()
+        tk.Label(frame, text="Aucun cours trouvé.", font=("Arial", 12)).pack()
         return
 
     for course in courses:
