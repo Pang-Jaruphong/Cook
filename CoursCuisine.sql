@@ -1,5 +1,0 @@
-INSERT INTO `cook_courses` (id,name, begin_time, finish_time, price, max_place, last_inscription, places_id, teachers_id) VALUES (NULL, 'Thai','2025-05-09 10:00', '12:00', 50.00, 5, '2025-05-02', 1, 1);
-INSERT INTO `cook_courses` (id,name, begin_time, finish_time, price, max_place, last_inscription, places_id, teachers_id) VALUES (NULL, 'Suisse','2025-05-10 09:30', '11:30', 40.00, 10, '2025-05-03', 2, 2);
-INSERT INTO `cook_courses` (id,name, begin_time, finish_time, price, max_place, last_inscription, places_id, teachers_id) VALUES (NULL,'Turc','2025-05-11 17:00', '19:00', 45.00, 5, '2025-05-04', 3, 3);
-INSERT INTO `cook_courses` (id,name, begin_time, finish_time, price, max_place, last_inscription, places_id, teachers_id) VALUES (NULL,'Chinoise','2025-05-12 09:00', '12:00', 50.00, 6, '2025-05-05', 4, 4);
-INSERT INTO `cook_courses` (id,name, begin_time, finish_time, price, max_place, last_inscription, places_id, teachers_id) VALUES (NULL,'Salade Asiatique','2025-05-12 15:00', '17:30', 50.00, 6, '2025-05-05', 5, 1);
