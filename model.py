@@ -190,7 +190,6 @@ if __name__ == "__main__":
     for row in data:  # affichage ligne par ligne
         print(row)
 
-
 def get_participants_courses():
     """
     Retourne la liste des inscriptions avec noms complets des participants et noms de cours.
@@ -210,3 +209,13 @@ def get_participants_courses():
             cook_courses ON participants_has_cook_courses.cook_courses_id = cook_courses.id
     """
     return read_SQL(sql)
+
+def get_course(course_id):
+    # récupérer les informations d'un cours à partir de ID
+    results = read_SQL(f"SELECT * FROM cook_courses WHERE id = {course_id}")
+    return results[0] if results else None # Un dictionnaire retourne le premier résultat sinon rien
+
+# compter le nombre de participants
+def count_inscriptions(course_id):
+    results = read_SQL(f"SELECT COUNT(*) AS total FROM participants_has_cook_courses WHERE cook_courses_id = {course_id}")
+    return results[0]["total"] if results else 0

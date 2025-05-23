@@ -72,8 +72,6 @@ def delete_inscription(tree):
         except Exception as e:
             messagebox.showerror("Erreur", f"Erreeur de la suppression :{e}")
 
-
-
 def add_inscription():
     """Ajoute une inscription à un cours."""
     try:
@@ -83,6 +81,19 @@ def add_inscription():
         messagebox.showerror("Erreur", "ID invalide (doivent être numériques)")
         return
 
+    # Récupère le cours depuis la base de données
+    course = model.get_course(course_id)
+    if not course:
+        messagebox.showerror("Erreur", "Cours introuvable.")
+        return
+
+    # Vérifie la limite d'inscriptions
+    currant_count = model.count_inscriptions(course_id)
+    if currant_count >= course["max_place"]:
+        messagebox.showwarning("Complet", "Ce cour est déjà complet")
+        return
+
+    # Ajouter l'inscription
     success = model.insert_row("Participants_has_cook_courses", {
         "Participants_id": participant_id,
         "cook_courses_id": course_id
