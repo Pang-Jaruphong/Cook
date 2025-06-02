@@ -89,6 +89,7 @@ def add_course():
     name = entry_name.get().strip()
     begin_time = entry_datetime.get().strip()
     raw_time = entry_finish_time.get().strip()
+    price = entry_price.get().strip()
     max_place = entry_max_place.get().strip()
     last_inscription = entry_last_inscription.get().strip()
 
@@ -123,6 +124,8 @@ def add_course():
         entry_name.delete(0, tk.END)
         entry_datetime.delete(0, tk.END)
         entry_finish_time.delete(0, tk.END)
+        entry_price.delete(0, tk.END)
+        entry_max_place.delete(0, tk.END)
         entry_last_inscription.delete(0, tk.END)
         refresh_courses()  # Met à jour l'affichage
     else:
@@ -162,7 +165,7 @@ tk.Label(form_frame, text="Prix:", font=("Arial", 12)).grid(row=1, column=0, pad
 entry_price = tk.Entry(form_frame, font=("Arial", 12))
 entry_price.grid(row=1, column=1, padx=5, pady=2)
 
-tk.Label(form_frame, text="Place:", font=("Arial", 12)).grid(row=1, column=2, padx=5, pady=2)
+tk.Label(form_frame, text="Max de place:", font=("Arial", 12)).grid(row=1, column=2, padx=5, pady=2)
 entry_max_place = tk.Entry(form_frame, font=("Arial", 12))
 entry_max_place.grid(row=1, column=3, padx=5, pady=2)
 
