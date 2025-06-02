@@ -1,4 +1,7 @@
+# Connection à une BD
+# Il faut avoir installé mysqlconnector (pip install mysql-connector-python)
 # Author : Jaruphong et Gaëtan
+# Version 1.0 Date : 10.06.2025
 
 import tkinter as tk
 from tkinter import messagebox
@@ -85,10 +88,23 @@ def add_course():
     """Ajoute un concert à la base de données."""
     name = entry_name.get().strip()
     begin_time = entry_datetime.get().strip()
-    finish_time = entry_finish_time.get().strip()
+    raw_time = entry_finish_time.get().strip()
+    max_place = entry_max_place.get().strip()
     last_inscription = entry_last_inscription.get().strip()
 
-    if not name or not begin_time:
+    try:
+        # Conversion vers un format TIME MySQL (HH:MM:SS) et le prix
+        price = float(entry_price.get().replace(",", ".").strip())
+        # Formatage de l'heure de fin en HH:MM:00 (5 caratères)
+        if len(raw_time) == 5:
+            finish_time = raw_time + ":00"  # ex. '18:30:00'
+        else:
+            finish_time = raw_time  # au cas où déjà sous forme HH:MM:SS
+    except ValueError:
+        messagebox.showerror("Erreur", "Prix et Heure de fin invalide (format attendu HH:MM)")
+        return
+
+    if not name or not begin_time or not last_inscription or not raw_time or not price or not finish_time:
         messagebox.showwarning("Erreur", "Veuillez remplir tous les champs !")
         return
 
@@ -96,8 +112,8 @@ def add_course():
         "name": name,
         "begin_time": begin_time,
         "finish_time": finish_time,
-        "price": 0.0,
-        "max_place": 10,
+        "price": price,
+        "max_place": max_place,
         "last_inscription": last_inscription,
         "places_id": 1,
         "teachers_id": 1,
@@ -116,13 +132,13 @@ def add_course():
 # Création de la fenêtre principale
 root = tk.Tk()
 root.title("Gestion des cours ce cuisine")
-root.geometry("950x500")
+root.geometry("850x500")
 
 # Bouton de rafraîchissement
 btn_refresh = tk.Button(root, text="Refresh", command=refresh_courses, bg="blue", fg="white")
 btn_refresh.pack(pady=5)
 
-# Frame pour afficher les concerts
+# Frame pour afficher les courses
 frame = tk.Frame(root)
 frame.pack(fill="both", expand=True, padx=10, pady=10)
 
@@ -134,25 +150,25 @@ tk.Label(form_frame, text="Nom du cours:", font=("Arial", 12)).grid(row=0, colum
 entry_name = tk.Entry(form_frame, font=("Arial", 12))
 entry_name.grid(row=0, column=1, padx=5, pady=2)
 
-tk.Label(form_frame, text="Date/Heure:", font=("Arial", 12)).grid(row=1, column=0, padx=5, pady=2)
+tk.Label(form_frame, text="Date/Heure:", font=("Arial", 12)).grid(row=0, column=2, padx=5, pady=2)
 entry_datetime = tk.Entry(form_frame, font=("Arial", 12))
-entry_datetime.grid(row=1, column=1, padx=5, pady=2)
+entry_datetime.grid(row=0, column=3, padx=5, pady=2)
 
-tk.Label(form_frame, text="Fin:", font=("Arial", 12)).grid(row=1, column=3, padx=5, pady=2)
+tk.Label(form_frame, text="Fin:", font=("Arial", 12)).grid(row=0, column=4, padx=5, pady=2)
 entry_finish_time = tk.Entry(form_frame, font=("Arial", 12))
-entry_finish_time.grid(row=1, column=4, padx=5, pady=2)
+entry_finish_time.grid(row=0, column=5, padx=5, pady=2)
 
-tk.Label(form_frame, text="Prix:", font=("Arial", 12)).grid(row=0, column=3, padx=5, pady=2)
-entry_finish_time = tk.Entry(form_frame, font=("Arial", 12))
-entry_finish_time.grid(row=0, column=4, padx=5, pady=2)
+tk.Label(form_frame, text="Prix:", font=("Arial", 12)).grid(row=1, column=0, padx=5, pady=2)
+entry_price = tk.Entry(form_frame, font=("Arial", 12))
+entry_price.grid(row=1, column=1, padx=5, pady=2)
 
-tk.Label(form_frame, text="Place:", font=("Arial", 12)).grid(row=0, column=5, padx=5, pady=2)
-entry_finish_time = tk.Entry(form_frame, font=("Arial", 12))
-entry_finish_time.grid(row=0, column=6, padx=5, pady=2)
+tk.Label(form_frame, text="Place:", font=("Arial", 12)).grid(row=1, column=2, padx=5, pady=2)
+entry_max_place = tk.Entry(form_frame, font=("Arial", 12))
+entry_max_place.grid(row=1, column=3, padx=5, pady=2)
 
-tk.Label(form_frame, text="Dernier délais:", font=("Arial", 12)).grid(row=1, column=5, padx=5, pady=2)
+tk.Label(form_frame, text="Dernier délais:", font=("Arial", 12)).grid(row=1, column=4, padx=5, pady=2)
 entry_last_inscription = tk.Entry(form_frame, font=("Arial", 12))
-entry_last_inscription.grid(row=1, column=6, padx=5, pady=2)
+entry_last_inscription.grid(row=1, column=5, padx=5, pady=2)
 
 btn_add = tk.Button(form_frame, text="Ajouter", command=add_course, bg="green", fg="white")
 btn_add.grid(row=2, columnspan=1, pady=5, padx=5)
