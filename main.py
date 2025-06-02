@@ -119,7 +119,7 @@ def add_course():
         "teachers_id": 1,
     })
     if success:
-        messagebox.showinfo("Succès", "Course ajouté avec succès !")
+        messagebox.showinfo("Succès", "Le cours ajouté avec succès !")
         entry_name.delete(0, tk.END)
         entry_datetime.delete(0, tk.END)
         entry_finish_time.delete(0, tk.END)
@@ -131,8 +131,8 @@ def add_course():
 
 # Création de la fenêtre principale
 root = tk.Tk()
-root.title("Gestion des cours ce cuisine")
-root.geometry("850x500")
+root.title("Gestion des cours de cuisine")
+root.geometry("950x450")
 
 # Bouton de rafraîchissement
 btn_refresh = tk.Button(root, text="Refresh", command=refresh_courses, bg="blue", fg="white")
@@ -171,10 +171,10 @@ entry_last_inscription = tk.Entry(form_frame, font=("Arial", 12))
 entry_last_inscription.grid(row=1, column=5, padx=5, pady=2)
 
 btn_add = tk.Button(form_frame, text="Ajouter", command=add_course, bg="green", fg="white")
-btn_add.grid(row=2, columnspan=1, pady=5, padx=5)
+btn_add.grid(row=2, columnspan=5, pady=5, padx=5)
 
 btn_delete = tk.Button(form_frame, text="Supprimer", command=lambda: delete_course(tree), bg="red", fg="white")
-btn_delete.grid(row=2, columnspan=2, pady=5, padx=5)
+btn_delete.grid(row=2, columnspan=8, pady=5, padx=5)
 
 # Chargement initial des courses
 refresh_courses()
