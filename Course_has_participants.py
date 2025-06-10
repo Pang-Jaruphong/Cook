@@ -62,9 +62,12 @@ def delete_inscription(tree):
 
     # On suppose que l'ID est dans la première colonne
     item = tree.item(selection[0])
-    insc_id = item["values"][0]
+    values = item["values"]
+    insc_id = values[0]
+    prenom = item["values"][1]
+    course = item["values"][3]
 
-    if messagebox.askyesno("Confirmation", f"Supprimer l'inscription ID {insc_id} ?"):
+    if messagebox.askyesno("Confirmation", f"Supprimer l'inscription de {prenom} dans le cours de {course}?"):
         try:
             model.delete_row("Participants_has_cook_courses", {"id": insc_id})
             refresh_participants_courses()
@@ -90,7 +93,7 @@ def add_inscription():
     # Vérifie la limite d'inscriptions
     currant_count = model.count_inscriptions(course_id)
     if currant_count >= course["max_place"]:
-        messagebox.showwarning("Complet", "Ce cour est déjà complet")
+        messagebox.showwarning("Complet", "Ce cours est déjà complet")
         return
 
     # Ajouter l'inscription
@@ -111,7 +114,7 @@ def add_inscription():
 # Fenêtre principale
 root = tk.Tk()
 root.title("Inscriptions aux Cours de Cuisine")
-root.geometry("700x900")
+root.geometry("700x800")
 
 btn_refresh = tk.Button(root, text="Rafraîchir", command=refresh_participants_courses, bg="blue", fg="white")
 btn_refresh.pack(pady=5)

@@ -20,7 +20,7 @@ def refresh_courses():
     courses = model.read_table("cook_courses")  # Récupère les cours depuis la BD
 
     if not courses:
-        tk.Label(frame, text="Aucun course trouvé.", font=("Arial", 12)).pack()
+        tk.Label(frame, text="Aucun cours trouvé.", font=("Arial", 12)).pack()
         tree = None
         return
 
@@ -74,8 +74,8 @@ def delete_course(tree):
 
     # On suppose que l'ID est dans la première colonne
     item = tree.item(selection[0])
-    course_id = item["values"][0]
-    if messagebox.askyesno("Confirmation", f"Supprimer le cours ID {course_id} ?"):
+    course_id = item["values"][1]
+    if messagebox.askyesno("Confirmation", f"Supprimer le cours : {course_id} ?"):
         try:
             model.delete_row("cook_courses", {"id": course_id})
             refresh_courses()  # Met à jour l'affichage

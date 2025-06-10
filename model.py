@@ -1,7 +1,7 @@
 # Connection à une BD
-# il faut avoir installé mysqlconnector (pip install mysql-connector-python)
+# Il faut avoir installé mysqlconnector (pip install mysql-connector-python)
 # Author : Jaruphong et Gaëtan
-# Version 0.1 Date : 02.05.2025
+# Version 1.0 Date : 10.06.2025
 
 
 import mysql.connector
@@ -78,7 +78,7 @@ def insert_row(table, values):
 
     :param table: Nom de la table.
     :param values: Dictionnaire représentant une seule ligne à insérer.
-                   Ex: {"name": "Concert 1", "datetime": "2025-06-15 20:00:00"}
+                   Ex: {"name": "Cours 1", "datetime": "2025-06-15 20:00:00"}
     """
     if not values:
         print("Aucune donnée à insérer.")
@@ -207,6 +207,8 @@ def get_participants_courses():
             participants ON participants_has_cook_courses.participants_id = participants.id
         JOIN 
             cook_courses ON participants_has_cook_courses.cook_courses_id = cook_courses.id
+        ORDER BY 
+            cook_courses.id ASC
     """
     return read_SQL(sql)
 
@@ -219,3 +221,10 @@ def get_course(course_id):
 def count_inscriptions(course_id):
     results = read_SQL(f"SELECT COUNT(*) AS total FROM participants_has_cook_courses WHERE cook_courses_id = {course_id}")
     return results[0]["total"] if results else 0
+"""
+def get_all_participants():
+    return read_SQL("select first_name, last_name from participants")
+
+def get_all_courses():
+    return read_SQL("select course_name from cook_courses")
+"""
