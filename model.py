@@ -212,6 +212,7 @@ def get_participants_courses():
     """
     return read_SQL(sql)
 
+
 def get_course(course_id):
     # récupérer les informations d'un cours à partir de ID
     results = read_SQL(f"SELECT * FROM cook_courses WHERE id = {course_id}")
@@ -221,10 +222,96 @@ def get_course(course_id):
 def count_inscriptions(course_id):
     results = read_SQL(f"SELECT COUNT(*) AS total FROM participants_has_cook_courses WHERE cook_courses_id = {course_id}")
     return results[0]["total"] if results else 0
-"""
-def get_all_participants():
-    return read_SQL("select first_name, last_name from participants")
 
-def get_all_courses():
-    return read_SQL("select course_name from cook_courses")
-"""
+def contenu_deroulant_participants():
+    sql = "SELECT first_name, last_name FROM participants"
+    return read_SQL(sql)
+
+def contenu_deroulant_cours():
+    sql = "SELECT name FROM cook_courses"
+    return read_SQL(sql)
+
+def traduction_participants(participants):
+    sql = f"""
+            SELECT 
+                id
+            FROM 
+                participants
+            WHERE 
+                first_name = '{participants}'
+                """ # Cette manière n'est pas très sécurisée, mais elle a au moins le mérite de fonctionner
+    result = read_SQL(sql)
+
+    # Vérifie si le resultat est un tuple ou un dict afin de retourner la bonne information.
+
+    if result:
+        row = result[0]
+        if isinstance(row, dict):
+            return row['id']
+        elif isinstance(row, tuple):
+            return row[0]
+
+def traduction_course(course):
+    sql = f"""
+            SELECT 
+                id
+            FROM 
+                cook_courses
+            WHERE 
+                name = '{course}'
+                """ # Cette manière n'est pas très sécurisée, mais elle a au moins le mérite de fonctionner
+    result = read_SQL(sql)
+
+    if result:
+        row = result[0]
+        if isinstance(row, dict):
+            return row['id']
+        elif isinstance(row, tuple):
+            return row[0]
+def participants_in_course():
+    sql = """SELECT
+                    participants.first_name AS participant,
+                    participants.last_name AS participant,
+                    cook_courses.name AS cours
+                    FROM participants_has_cook_courses
+                    INNER JOIN participants ON participants_has_cook_courses.participants_id = participants.id
+                    INNER JOIN cook_courses ON participants_has_cook_courses.cook_courses_id = cook_courses.id"""
+    return read_SQL(sql)
+
+def update_participant_info(table, new_values, where, where2):
+    """
+    Met à jour une ligne dans une table.
+
+    :param table: Nom de la table.
+    :param new_values: Dictionnaire des colonnes et nouvelles valeurs {"colonne": valeur}.
+    :param where: Dictionnaire des conditions {"colonne": valeur}.
+    """
+    if not new_values or not where:
+        print("Données incomplètes pour la mise à jour.")
+        return False
+
+    conn = open_db()
+    if conn is None:
+        return False
+
+    try:
+        cursor = conn.cursor()
+
+        # Construire la requête
+        set_clause = ", ".join([f"{key} = %s" for key in new_values.keys()])
+        where_clause = " AND ".join([f"{key} = %s" for key in where.keys()])
+        where_clause2 = " AND ".join([f"{key} = %s" for key in where2.keys()])
+        sql = f"UPDATE {table} SET {set_clause} WHERE {where_clause}"
+
+        data = tuple(new_values.values()) + tuple(where.values())
+
+        cursor.execute(sql, data)
+        conn.commit()
+        print(f"{cursor.rowcount} enregistrement(s) mis à jour.")
+        return True
+    except mysql.connector.Error as err:
+        print(f"Erreur lors de la mise à jour dans {table} : {err}")
+        return False
+    finally:
+        cursor.close()
+        conn.close()

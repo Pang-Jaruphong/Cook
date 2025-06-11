@@ -7,6 +7,7 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk  # Importer Themed Tkinter, widgets pour améliorer l'affiche
 import model  # Import du fichier contenant les fonctions d'accès à la BD
+import subprocess
 
 tree = None
 
@@ -131,6 +132,8 @@ def add_course():
     else:
         messagebox.showerror("Erreur", "Impossible d'ajouter le cours.")
 
+def inscription_page ():
+    subprocess.run(["Python", "Course_has_participants.py"])
 
 # Création de la fenêtre principale
 root = tk.Tk()
@@ -174,10 +177,13 @@ entry_last_inscription = tk.Entry(form_frame, font=("Arial", 12))
 entry_last_inscription.grid(row=1, column=5, padx=5, pady=2)
 
 btn_add = tk.Button(form_frame, text="Ajouter", command=add_course, bg="green", fg="white")
-btn_add.grid(row=2, columnspan=5, pady=5, padx=5)
+btn_add.grid(row=2, columnspan=2, pady=5, padx=5)
 
 btn_delete = tk.Button(form_frame, text="Supprimer", command=lambda: delete_course(tree), bg="red", fg="white")
-btn_delete.grid(row=2, columnspan=8, pady=5, padx=5)
+btn_delete.grid(row=2, columnspan=4, pady=5, padx=5)
+
+btn_page_inscription = tk.Button(form_frame, text="Participants", command=inscription_page, bg="black", fg="white")
+btn_page_inscription.grid(row=2, columnspan=6, pady=5, padx=5)
 
 # Chargement initial des courses
 refresh_courses()
