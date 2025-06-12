@@ -9,6 +9,8 @@ from tkinter import ttk  # Importer Themed Tkinter, widgets pour améliorer l'af
 import model  # Import du fichier contenant les fonctions d'accès à la BD
 import subprocess
 
+from Course_has_participants import participants
+
 tree = None
 
 
@@ -75,7 +77,20 @@ def delete_course(tree):
 
     # On suppose que l'ID est dans la première colonne
     item = tree.item(selection[0])
-    course_id = item["values"][1]
+    values = item["values"]
+    course_id = values[0]
+    course_name = item["values"][1]
+
+    # Vérifie s'il y a des inscriptions pour ce cours
+    inscriptions = model.get_participants_courses()
+
+    # aide ChatGPT pour trouver une solution
+    cours_already_inscrit = any(part.get("course_id") == course_id for part in participants)
+
+    if cours_already_inscrit:
+        messagebox.showwarning("Impossible", f"Le cours '{course_name}' a déjà des inscriptions.")
+        return
+
     if messagebox.askyesno("Confirmation", f"Supprimer le cours : {course_id} ?"):
         try:
             model.delete_row("cook_courses", {"id": course_id})
