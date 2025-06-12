@@ -82,6 +82,33 @@ def add_participant():
     else:
         messagebox.showerror("Erreur", "Impossible de créer le compte.")
 
+def delete_inscription(tree):
+    """Supprime une inscription sélectionnée dans le treeview."""
+    if not tree:
+        messagebox.showerror("Erreur", "Aucune liste affichée.")
+        return
+
+    selection = tree.selection()
+
+    if not selection:
+        messagebox.showwarning("Aucun élément sélectionné", "Veuillez sélectionner une inscription à supprimer.")
+        return
+
+    # On suppose que l'ID est dans la première colonne
+    item = tree.item(selection[0])
+    values = item["values"]
+    # Afficher la fenêtre avec le text qui contient le prénom d'inscripstion, le cours
+    insc_id = values[0] # pour supprimer avec id
+    prenom = item["values"][1]
+
+    if messagebox.askyesno("Confirmation", f"Supprimer l'inscription de {prenom}?"):
+        try:
+            model.delete_row("Participants_has_cook_courses", {"id": insc_id})
+            refresh_participant()
+            messagebox.showinfo("Succès", "inscription supprimée")
+        except Exception as e:
+            messagebox.showerror("Erreur", f"Erreeur de la suppression :{e}")
+
 # Création de la fenêtre principale
 root = tk.Tk()
 root.title("Nouveau membre")
@@ -109,7 +136,10 @@ entry_mail.grid(row=1, column=3, padx=4, pady=2)
 # Le bouton va permettre d'ajouter simplement les informations du membres à la base de donnée.
 
 btn_add = tk.Button(form_frame, text="Nouveau inscrit", command=add_participant, bg="green", fg="white")
-btn_add.grid(row=2, columnspan=1, pady=5, padx=5)
+btn_add.grid(row=2, column=1, pady=5, padx=5)
+
+btn_delete = tk.Button(form_frame, text="Supprimer", command=lambda :delete_inscription(tree), bg="red", fg="white")
+btn_delete.grid(row =2, column=2, pady=5, padx=5)
 
 frame = tk.Frame(root)
 frame.pack(fill="both", expand=True)
