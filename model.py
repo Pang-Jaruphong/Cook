@@ -147,7 +147,6 @@ def update_row(table, new_values, where):
         cursor.close()
         conn.close()
 
-
 def delete_row(table, where):
     """
     Supprime un enregistrement d'une table.
@@ -167,7 +166,7 @@ def delete_row(table, where):
         cursor = conn.cursor()
 
         where_clause = " AND ".join([f"{key} = %s" for key in where.keys()])
-        sql = f"DELETE FROM {table} WHERE {where_clause}"
+        sql = (f"DELETE FROM {table} WHERE {where_clause}")
 
         cursor.execute(sql, tuple(where.values()))
         conn.commit()
@@ -180,6 +179,41 @@ def delete_row(table, where):
         cursor.close()
         conn.close()
 
+def delete_courses_and_participant(course_id):
+    """
+    Supprime les inscription liées au cours, puis supprime le cours.
+
+    if not where:
+        print("Une condition WHERE est obligatoire pour la suppression.")
+        return False
+"""
+    conn = open_db()
+    if conn is None:
+        return False
+
+    try:
+        cursor = conn.cursor()
+
+        # Supprimer les inscriptions liées
+        sql_participants = "DELETE FROM participants_has_courses WHERE courses_id = %s"
+        cursor.execute(sql_participants, (course_id,))
+
+        # Supprimer le cours
+        sql_course = "DELETE FROM cook_courses WHERE id = %s"
+        cursor.execute(sql_course, (course_id,))
+
+        conn.commit()
+
+        print(f"{cursor.rowcount} enregistrement(s) supprimé(s).")
+        return True
+
+    except mysql.connector.Error as err:
+        print(f"Erreur lors de la suppression : {err}")
+        return False
+
+    finally:
+        cursor.close()
+        conn.close()
 
 # Exemples d'utilisation
 if __name__ == "__main__":
@@ -211,7 +245,6 @@ def get_participants_courses():
             cook_courses.id ASC
     """
     return read_SQL(sql)
-
 
 def get_course(course_id):
     # récupérer les informations d'un cours à partir de ID
@@ -277,41 +310,3 @@ def participants_in_course():
                     INNER JOIN participants ON participants_has_cook_courses.participants_id = participants.id
                     INNER JOIN cook_courses ON participants_has_cook_courses.cook_courses_id = cook_courses.id"""
     return read_SQL(sql)
-
-def update_participant_info(table, new_values, where, where2):
-    """
-    Met à jour une ligne dans une table.
-
-    :param table: Nom de la table.
-    :param new_values: Dictionnaire des colonnes et nouvelles valeurs {"colonne": valeur}.
-    :param where: Dictionnaire des conditions {"colonne": valeur}.
-    """
-    if not new_values or not where:
-        print("Données incomplètes pour la mise à jour.")
-        return False
-
-    conn = open_db()
-    if conn is None:
-        return False
-
-    try:
-        cursor = conn.cursor()
-
-        # Construire la requête
-        set_clause = ", ".join([f"{key} = %s" for key in new_values.keys()])
-        where_clause = " AND ".join([f"{key} = %s" for key in where.keys()])
-        where_clause2 = " AND ".join([f"{key} = %s" for key in where2.keys()])
-        sql = f"UPDATE {table} SET {set_clause} WHERE {where_clause}"
-
-        data = tuple(new_values.values()) + tuple(where.values())
-
-        cursor.execute(sql, data)
-        conn.commit()
-        print(f"{cursor.rowcount} enregistrement(s) mis à jour.")
-        return True
-    except mysql.connector.Error as err:
-        print(f"Erreur lors de la mise à jour dans {table} : {err}")
-        return False
-    finally:
-        cursor.close()
-        conn.close()

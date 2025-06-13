@@ -82,20 +82,19 @@ def delete_course(tree):
     course_name = item["values"][1]
 
     # Vérifie s'il y a des inscriptions pour ce cours
-    inscriptions = model.get_participants_courses()
+    # inscriptions = model.delete_courses_and_participant(course_id)
 
-    # aide ChatGPT pour trouver une solution
-    cours_already_inscrit = any(part.get("course_id") == course_id for part in participants)
-
-    if cours_already_inscrit:
-        messagebox.showwarning("Impossible", f"Le cours '{course_name}' a déjà des inscriptions.")
+    try:
+        course_id_int = int(course_id)
+    except ValueError:
+        messagebox.showerror("Erreur", f"ID de cours invalide : {course_id}")
         return
 
-    if messagebox.askyesno("Confirmation", f"Supprimer le cours : {course_id} ?"):
+    if messagebox.askyesno("Confirmation", f"Voulez-vous supprimer le cours : {course_name} ?"):
         try:
-            model.delete_row("cook_courses", {"id": course_id})
+            model.delete_courses_and_participant(course_id)
             refresh_courses()  # Met à jour l'affichage
-            messagebox.showinfo("Succès", "inscription supprimée")
+            messagebox.showinfo("Succès", "cours supprimé")
         except Exception as e:
             messagebox.showerror("Erreur", f"Erreeur de la suppression :{e}")
 
