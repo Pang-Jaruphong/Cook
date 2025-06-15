@@ -301,12 +301,4 @@ def traduction_course(course):
             return row['id']
         elif isinstance(row, tuple):
             return row[0]
-def participants_in_course():
-    sql = """SELECT
-                    participants.first_name AS participant,
-                    participants.last_name AS participant,
-                    cook_courses.name AS cours
-                    FROM participants_has_cook_courses
-                    INNER JOIN participants ON participants_has_cook_courses.participants_id = participants.id
-                    INNER JOIN cook_courses ON participants_has_cook_courses.cook_courses_id = cook_courses.id"""
-    return read_SQL(sql)
+
