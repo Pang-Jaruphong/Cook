@@ -154,7 +154,7 @@ form = tk.Frame(root, pady=10)
 form.pack(fill="x")
 
 liste_participants = model.contenu_deroulant_participants()
-participants = [row['first_name'] for row in liste_participants]
+participants = [f"{row['first_name']}{row['last_name']}" for row in liste_participants]
 
 tk.Label(form, text="Participant:", font=("Arial", 12)).grid(row=0, column=0, padx=5, pady=2)
 entry_participant = ttk.Combobox(form, width=20, font=("Arial", 12))
