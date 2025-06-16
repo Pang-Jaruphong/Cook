@@ -195,7 +195,7 @@ def delete_courses_and_participant(course_id):
         cursor = conn.cursor()
 
         # Supprimer les inscriptions liées
-        sql_participants = "DELETE FROM participants_has_courses WHERE courses_id = %s"
+        sql_participants = "DELETE FROM participants_has_cook_courses WHERE id = %s"
         cursor.execute(sql_participants, (course_id,))
 
         # Supprimer le cours
