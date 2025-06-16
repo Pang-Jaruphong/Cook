@@ -9,10 +9,7 @@ from tkinter import ttk  # Importer Themed Tkinter, widgets pour améliorer l'af
 import model  # Import du fichier contenant les fonctions d'accès à la BD
 import subprocess
 
-from Course_has_participants import participants
-
 tree = None
-
 
 def refresh_courses():
     """Rafraîchit l'affichage des courses."""
