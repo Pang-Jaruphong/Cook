@@ -265,32 +265,27 @@ def contenu_deroulant_cours():
     return read_SQL(sql)
 
 def traduction_participants(participants):
-    try:
-        first_name, last_name = participants.strip().split(" ", 1)
-    except ValueError:
-        print("Format de nom invalide")
+
+    # aide de ChatGPT pour pouvoir ajouter une personne avec plusieurs prénoms et noms
+    parts = participants.strip().split()
+
+    if len(parts) < 2:
+        print("Format de nom invalide (il faut au moins un prénom et un nom)")
         return None
 
-    sql = f"SELECT id FROM participants WHERE first_name = '{first_name}' AND last_name = '{last_name}'"
-    try:
-        result = read_SQL(sql)
-    except mysql.connector.Error as err:
-        print(f"Erreur lors de la suppression : {err}")
-
-    if result :
-        row = result[0]
-        return row["id"] if isinstance(row, dict) else row[0]
-    else :
-        return None
-
-    # Vérifie si le resultat est un tuple ou un dict afin de retourner la bonne information.
-
-    if result:
-        row = result[0]
-        if isinstance(row, dict):
-            return row['id']
-        elif isinstance(row, tuple):
-            return row[0]
+    for i in range(1, len(parts)):
+        first_name = " ".join(parts[:i])
+        last_name = " ".join(parts[i:])
+        # Insérer et introduire le prénom et nom dans la base SQL avec '{ }'
+        sql = f"SELECT id FROM participants WHERE first_name = '{first_name}' AND last_name = '{last_name}'"
+        try:
+            result = read_SQL(sql)
+            if result:
+                row = result[0]
+                return row["id"] if isinstance(row, dict) else row[0]
+        except mysql.connector.Error as err:
+            print(f"Erreur lors de la suppression : {err}")
+            return None
 
 def traduction_course(course):
     sql = f"""

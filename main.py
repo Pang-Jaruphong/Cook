@@ -8,6 +8,7 @@ from tkinter import messagebox
 from tkinter import ttk  # Importer Themed Tkinter, widgets pour améliorer l'affiche
 import model  # Import du fichier contenant les fonctions d'accès à la BD
 import subprocess
+import mysql.connector
 
 tree = None
 
@@ -93,7 +94,11 @@ def delete_course(tree):
             refresh_courses()  # Met à jour l'affichage
             messagebox.showinfo("Succès", "cours supprimé")
         except Exception as e:
-            messagebox.showerror("Erreur", f"Erreeur de la suppression :{e}")
+            if e.errno == 1451:
+                messagebox.showerror("Impossible",
+                                     "Impossible de supprimer ce cours car il est associé à des inscriptions.")
+            else:
+                messagebox.showerror("Erreur", f"Erreeur de la suppression :{e}")
 
 def add_course():
     """Ajoute un concert à la base de données."""

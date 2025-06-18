@@ -7,6 +7,7 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 import subprocess
+import mysql.connector
 
 import model  # module d'accès à la BD
 # Variable globale pour le treeview
@@ -127,6 +128,7 @@ def add_inscription():
         "Participants_id": participant_id,
         "cook_courses_id": course_id
     })
+    print(f"participants_id: {participant_id}")
 
     if success:
         messagebox.showinfo("Succès", "Inscription ajoutée.")
@@ -155,6 +157,7 @@ form = tk.Frame(root, pady=10)
 form.pack(fill="x")
 
 liste_participants = model.contenu_deroulant_participants()
+# ajouter la liste déroulante avec prénom et nom
 participants = [f"{row['first_name']} {row['last_name']}" for row in liste_participants]
 
 tk.Label(form, text="Participant:", font=("Arial", 12)).grid(row=0, column=0, padx=5, pady=2)
