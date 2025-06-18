@@ -82,7 +82,7 @@ def delete_course(tree):
     # inscriptions = model.delete_courses_and_participant(course_id)
 
     try:
-        course_id_int = int(course_id)
+        course_id = int(course_id)
     except ValueError:
         messagebox.showerror("Erreur", f"ID de cours invalide : {course_id}")
         return
@@ -94,7 +94,6 @@ def delete_course(tree):
             messagebox.showinfo("Succès", "cours supprimé")
         except Exception as e:
             messagebox.showerror("Erreur", f"Erreeur de la suppression :{e}")
-
 
 def add_course():
     """Ajoute un concert à la base de données."""

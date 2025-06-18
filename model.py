@@ -97,7 +97,7 @@ def insert_row(table, values):
 
         sql = f"INSERT INTO {table} ({columns}) VALUES ({placeholders})"
         data = tuple(values.values())
-        print(sql, data)
+        # print(sql, data)
         cursor.execute(sql, data)
         conn.commit()
         print(f"Enregistrement inséré avec l'ID {cursor.lastrowid}.")
@@ -220,9 +220,9 @@ if __name__ == "__main__":
 
     # Test de read_SQL
     data = read_table("participants_has_cook_courses")
-    print(data)  # affichage complet
-    for row in data:  # affichage ligne par ligne
-        print(row)
+    # print(data)  # affichage complet
+    # for row in data:  # affichage ligne par ligne
+    #     print(row)
 
 def get_participants_courses():
     """
@@ -265,15 +265,23 @@ def contenu_deroulant_cours():
     return read_SQL(sql)
 
 def traduction_participants(participants):
-    sql = f"""
-            SELECT 
-                id
-            FROM 
-                participants
-            WHERE 
-                first_name = '{participants}'
-                """ # Cette manière n'est pas très sécurisée, mais elle a au moins le mérite de fonctionner
-    result = read_SQL(sql)
+    try:
+        first_name, last_name = participants.strip().split(" ", 1)
+    except ValueError:
+        print("Format de nom invalide")
+        return None
+
+    sql = f"SELECT id FROM participants WHERE first_name = '{first_name}' AND last_name = '{last_name}'"
+    try:
+        result = read_SQL(sql)
+    except mysql.connector.Error as err:
+        print(f"Erreur lors de la suppression : {err}")
+
+    if result :
+        row = result[0]
+        return row["id"] if isinstance(row, dict) else row[0]
+    else :
+        return None
 
     # Vérifie si le resultat est un tuple ou un dict afin de retourner la bonne information.
 

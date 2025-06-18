@@ -30,8 +30,8 @@ def refresh_participants_courses():
 
     # Définir les titres des colonnes
     tree.heading("id", text="ID")
-    tree.heading("first_name", text="Nom")
-    tree.heading("last_name", text="Prénom")
+    tree.heading("first_name", text="Prénom")
+    tree.heading("last_name", text="Nom")
     tree.heading("course_name", text="Cours")
 
     # Ajuster la largeur
@@ -91,24 +91,25 @@ def add_inscription():
     traitement_course = tk.StringVar()
 
     selected_participant = entry_participant.get()
-    selected_course = entry_course.get
+    selected_course = entry_course.get()
 
     traitement_participant.set(selected_participant)
-    traitement_course.set(selected_course())
+    traitement_course.set(selected_course)
 
-    participants_id = model.traduction_participants(traitement_participant.get())
+    participant_id = model.traduction_participants(traitement_participant.get())
     cook_courses_id = model.traduction_course(traitement_course.get())
 
     #logs de résultat
 
-    print(participants_id)
+    print(f"participants_id: {participant_id}")
     print(cook_courses_id)
 
     print(traitement_participant.get())
     print(traitement_course.get())
 
+    print(participant_id)
+
     try:
-        participant_id = int(participants_id)
         course_id = int(cook_courses_id)
     except ValueError:
         messagebox.showerror("Erreur", "Echec opération")
@@ -154,7 +155,7 @@ form = tk.Frame(root, pady=10)
 form.pack(fill="x")
 
 liste_participants = model.contenu_deroulant_participants()
-participants = [f"{row['first_name']}" for row in liste_participants]
+participants = [f"{row['first_name']} {row['last_name']}" for row in liste_participants]
 
 tk.Label(form, text="Participant:", font=("Arial", 12)).grid(row=0, column=0, padx=5, pady=2)
 entry_participant = ttk.Combobox(form, width=20, font=("Arial", 12))
